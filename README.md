@@ -4,15 +4,15 @@ A RESTful backend API for a finance dashboard system with user management, role-
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Runtime | Node.js (v18+) |
-| Framework | Express.js |
-| Database | MongoDB (via Mongoose ODM) |
+| Layer          | Technology                    |
+| -------------- | ----------------------------- |
+| Runtime        | Node.js (v18+)                |
+| Framework      | Express.js                    |
+| Database       | MongoDB (via Mongoose ODM)    |
 | Authentication | JWT (jsonwebtoken + bcryptjs) |
-| Validation | express-validator |
-| Middleware | cors, express.json() |
-| Dev Tooling | nodemon, dotenv |
+| Validation     | express-validator             |
+| Middleware     | cors, express.json()          |
+| Dev Tooling    | nodemon, dotenv               |
 
 > **Note on TypeScript:** This project uses JavaScript (ES6+) for rapid development. TypeScript can be adopted for stricter type checking, better IDE support, and improved maintainability using `ts-node`, `@types/*` packages, and a `tsconfig.json` configuration.
 
@@ -41,12 +41,12 @@ cp .env.example .env
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `PORT` | `5000` | Server port |
-| `MONGODB_URI` | `mongodb://localhost:27017/finance_dashboard` | MongoDB connection string |
-| `JWT_SECRET` | — | Secret key for JWT signing (change in production!) |
-| `JWT_EXPIRES_IN` | `7d` | JWT token expiration duration |
+| Variable         | Default                                       | Description                                        |
+| ---------------- | --------------------------------------------- | -------------------------------------------------- |
+| `PORT`           | `5000`                                        | Server port                                        |
+| `MONGODB_URI`    | `mongodb://localhost:27017/finance_dashboard` | MongoDB connection string                          |
+| `JWT_SECRET`     | —                                             | Secret key for JWT signing (change in production!) |
+| `JWT_EXPIRES_IN` | `7d`                                          | JWT token expiration duration                      |
 
 ### Running the Application
 
@@ -56,26 +56,7 @@ npm run dev
 
 # Production
 npm start
-
-# Seed database with sample data
-npm run seed
 ```
-
-### Seed Data
-
-Running `npm run seed` creates:
-- **3 users** with different roles
-- **30 randomized financial records** across realistic categories
-
-**Default Login Credentials:**
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@example.com | admin123 |
-| Analyst | analyst@example.com | analyst123 |
-| Viewer | viewer@example.com | viewer123 |
-
----
 
 ## Project Structure
 
@@ -120,37 +101,39 @@ z_assessment/
 
 ### Authentication
 
-| Method | Endpoint | Access | Description |
-|---|---|---|---|
-| POST | `/api/auth/register` | Public | Register a new user |
-| POST | `/api/auth/login` | Public | Login and get JWT token |
-| GET | `/api/auth/me` | Authenticated | Get current user profile |
+| Method | Endpoint             | Access        | Description              |
+| ------ | -------------------- | ------------- | ------------------------ |
+| POST   | `/api/auth/register` | Public        | Register a new user      |
+| POST   | `/api/auth/login`    | Public        | Login and get JWT token  |
+| GET    | `/api/auth/me`       | Authenticated | Get current user profile |
 
 ### User Management
 
-| Method | Endpoint | Access | Description |
-|---|---|---|---|
-| GET | `/api/users` | Admin | List all users (paginated) |
-| GET | `/api/users/:id` | Admin | Get user by ID |
-| PATCH | `/api/users/:id` | Admin | Update user role/status/name |
-| DELETE | `/api/users/:id` | Admin | Deactivate user (soft delete) |
+| Method | Endpoint         | Access | Description                   |
+| ------ | ---------------- | ------ | ----------------------------- |
+| GET    | `/api/users`     | Admin  | List all users (paginated)    |
+| GET    | `/api/users/:id` | Admin  | Get user by ID                |
+| PATCH  | `/api/users/:id` | Admin  | Update user role/status/name  |
+| DELETE | `/api/users/:id` | Admin  | Deactivate user (soft delete) |
 
 **Query Parameters for `GET /api/users`:**
+
 - `page` (default: 1), `limit` (default: 10)
 - `role` — filter by role (viewer, analyst, admin)
 - `isActive` — filter by active status (true/false)
 
 ### Financial Records
 
-| Method | Endpoint | Access | Description |
-|---|---|---|---|
-| POST | `/api/records` | Admin | Create a financial record |
-| GET | `/api/records` | Analyst, Admin | List records (filtered, paginated) |
-| GET | `/api/records/:id` | Analyst, Admin | Get record by ID |
-| PATCH | `/api/records/:id` | Admin | Update a record |
-| DELETE | `/api/records/:id` | Admin | Soft-delete a record |
+| Method | Endpoint           | Access         | Description                        |
+| ------ | ------------------ | -------------- | ---------------------------------- |
+| POST   | `/api/records`     | Admin          | Create a financial record          |
+| GET    | `/api/records`     | Analyst, Admin | List records (filtered, paginated) |
+| GET    | `/api/records/:id` | Analyst, Admin | Get record by ID                   |
+| PATCH  | `/api/records/:id` | Admin          | Update a record                    |
+| DELETE | `/api/records/:id` | Admin          | Soft-delete a record               |
 
 **Query Parameters for `GET /api/records`:**
+
 - `page` (default: 1), `limit` (default: 10)
 - `type` — filter by income or expense
 - `category` — filter by category name
@@ -160,36 +143,37 @@ z_assessment/
 
 ### Dashboard & Analytics
 
-| Method | Endpoint | Access | Description |
-|---|---|---|---|
-| GET | `/api/dashboard/summary` | Analyst, Admin | Total income, expenses, net balance |
-| GET | `/api/dashboard/category-summary` | Analyst, Admin | Category-wise totals |
-| GET | `/api/dashboard/trends` | Analyst, Admin | Monthly income/expense trends |
-| GET | `/api/dashboard/recent` | Analyst, Admin | Recent transactions (last 10) |
+| Method | Endpoint                          | Access         | Description                         |
+| ------ | --------------------------------- | -------------- | ----------------------------------- |
+| GET    | `/api/dashboard/summary`          | Analyst, Admin | Total income, expenses, net balance |
+| GET    | `/api/dashboard/category-summary` | Analyst, Admin | Category-wise totals                |
+| GET    | `/api/dashboard/trends`           | Analyst, Admin | Monthly income/expense trends       |
+| GET    | `/api/dashboard/recent`           | Analyst, Admin | Recent transactions (last 10)       |
 
 **Query Parameters:**
+
 - `/summary` and `/category-summary`: `startDate`, `endDate`, `type`
 - `/trends`: `months` (default: 12, max: 24)
 - `/recent`: `limit` (default: 10, max: 50)
 
 ### Health Check
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/health` | API health status |
+| Method | Endpoint      | Description       |
+| ------ | ------------- | ----------------- |
+| GET    | `/api/health` | API health status |
 
 ---
 
 ## Role Permissions Matrix
 
-| Action | Viewer | Analyst | Admin |
-|---|---|---|---|
-| Register / Login | ✅ | ✅ | ✅ |
-| View own profile | ✅ | ✅ | ✅ |
-| View financial records | ❌ | ✅ | ✅ |
-| Create / Update / Delete records | ❌ | ❌ | ✅ |
-| View dashboard & analytics | ❌ | ✅ | ✅ |
-| Manage users | ❌ | ❌ | ✅ |
+| Action                           | Viewer | Analyst | Admin |
+| -------------------------------- | ------ | ------- | ----- |
+| Register / Login                 | ✅     | ✅      | ✅    |
+| View own profile                 | ✅     | ✅      | ✅    |
+| View financial records           | ❌     | ✅      | ✅    |
+| Create / Update / Delete records | ❌     | ❌      | ✅    |
+| View dashboard & analytics       | ❌     | ✅      | ✅    |
+| Manage users                     | ❌     | ❌      | ✅    |
 
 ---
 
@@ -197,47 +181,50 @@ z_assessment/
 
 ### User
 
-| Field | Type | Details |
-|---|---|---|
-| name | String | Required, max 100 chars |
-| email | String | Required, unique, lowercase |
-| password | String | Required, min 6 chars, hashed with bcrypt |
-| role | String | Enum: viewer, analyst, admin (default: viewer) |
-| isActive | Boolean | Default: true |
-| createdAt | Date | Auto-generated |
-| updatedAt | Date | Auto-generated |
+| Field     | Type    | Details                                        |
+| --------- | ------- | ---------------------------------------------- |
+| name      | String  | Required, max 100 chars                        |
+| email     | String  | Required, unique, lowercase                    |
+| password  | String  | Required, min 6 chars, hashed with bcrypt      |
+| role      | String  | Enum: viewer, analyst, admin (default: viewer) |
+| isActive  | Boolean | Default: true                                  |
+| createdAt | Date    | Auto-generated                                 |
+| updatedAt | Date    | Auto-generated                                 |
 
 ### Financial Record
 
-| Field | Type | Details |
-|---|---|---|
-| amount | Number | Required, positive |
-| type | String | Enum: income, expense |
-| category | String | Required, max 50 chars |
-| date | Date | Default: current date |
-| description | String | Optional, max 500 chars |
-| createdBy | ObjectId | Ref to User |
-| isDeleted | Boolean | Default: false (soft delete) |
-| createdAt | Date | Auto-generated |
-| updatedAt | Date | Auto-generated |
+| Field       | Type     | Details                      |
+| ----------- | -------- | ---------------------------- |
+| amount      | Number   | Required, positive           |
+| type        | String   | Enum: income, expense        |
+| category    | String   | Required, max 50 chars       |
+| date        | Date     | Default: current date        |
+| description | String   | Optional, max 500 chars      |
+| createdBy   | ObjectId | Ref to User                  |
+| isDeleted   | Boolean  | Default: false (soft delete) |
+| createdAt   | Date     | Auto-generated               |
+| updatedAt   | Date     | Auto-generated               |
 
 ---
 
 ## Features Implemented
 
 ### Core
+
 - ✅ **JWT Authentication** — Secure token-based auth with configurable expiration
 - ✅ **Role-Based Access Control (RBAC)** — Three-tier role system (viewer, analyst, admin) enforced via middleware
 - ✅ **Financial Records CRUD** — Full create, read, update, delete operations
 - ✅ **Dashboard Analytics** — Aggregation-based summary, category breakdown, monthly trends, recent activity
 
 ### Data Management
+
 - ✅ **Soft Delete** — Records and users are deactivated rather than permanently deleted
 - ✅ **Pagination** — All list endpoints support page/limit with metadata
 - ✅ **Filtering** — Records filterable by type, category, date range, and text search
 - ✅ **Sorting** — Configurable sort field and order
 
 ### Reliability
+
 - ✅ **Input Validation** — express-validator on all mutating endpoints
 - ✅ **Structured Error Handling** — Consistent error responses with appropriate HTTP status codes
 - ✅ **Self-Protection Guards** — Admin cannot deactivate or demote themselves
@@ -281,6 +268,7 @@ All errors follow a consistent structure:
 ```
 
 **HTTP Status Codes Used:**
+
 - `200` — Success
 - `201` — Created
 - `400` — Bad Request / Validation Error
