@@ -2,6 +2,8 @@
 
 A RESTful backend API for a finance dashboard system with user management, role-based access control, financial records CRUD, and analytics/summary endpoints.
 
+🌟 **Live Deployment:** [https://z-assessment.onrender.com/](https://z-assessment.onrender.com/)
+
 ## Tech Stack
 
 | Layer          | Technology                    |
@@ -44,7 +46,7 @@ cp .env.example .env
 | Variable         | Default                                       | Description                                        |
 | ---------------- | --------------------------------------------- | -------------------------------------------------- |
 | `PORT`           | `5000`                                        | Server port                                        |
-| `MONGODB_URI`    | `mongodb://localhost:27017/finance_dashboard` | MongoDB connection string                          |
+| `MONGODB_URI`    | `mongodb://localhost:27017/finance_dashboard` | Local MongoDB cluster or cloud Atlas string        |
 | `JWT_SECRET`     | —                                             | Secret key for JWT signing (change in production!) |
 | `JWT_EXPIRES_IN` | `7d`                                          | JWT token expiration duration                      |
 
@@ -57,6 +59,20 @@ npm run dev
 # Production
 npm start
 ```
+
+---
+
+## Live Demo & Test Accounts
+
+The backend is currently deployed and accessible at: **[https://z-assessment.onrender.com/](https://z-assessment.onrender.com/)**
+
+The deployed database has been pre-populated with the following user accounts for testing Role-Based Access Control features:
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `testadmin@test.com` | `password@1` |
+| Analyst | `testanalyst@test.com` | `password@1` |
+| Viewer | `testviewer@test.com` | `password@1` |
 
 ## Project Structure
 
@@ -295,7 +311,7 @@ All errors follow a consistent structure:
 
 ## Assumptions
 
-1. A single admin can be created through either the seed script or by manually updating a user's role in the database after registration.
+1. The initial admin user setup is performed via manual database insertion or during the initial environment deployment phase.
 2. All monetary amounts are stored as numbers without currency denomination.
 3. The system is designed for a single-tenant use case (all admin users manage the same data).
 4. Soft-deleted records are excluded from all queries and analytics by default.
